@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Date;
 
-public class UnitisedCargoImpl implements UnitisedCargo {
+public class UnitisedCargoImpl implements UnitisedCargo, Inspectable, StorableWithInspection{
     private final boolean fragile;
     private final Customer owner;
     private final int storageLocation;

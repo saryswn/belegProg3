@@ -6,10 +6,9 @@ import cargo.Hazard;
 
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.util.Collection;
 import java.util.Date;
 
-public class DryBulkAndUnitisedCargoImpl implements DryBulkAndUnitisedCargo {
+public class DryBulkAndUnitisedCargoImpl implements DryBulkAndUnitisedCargo, Inspectable, StorableWithInspection {
     private final Customer owner;
     private final BigDecimal value;
     private final Hazard hazards;

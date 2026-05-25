@@ -1,17 +1,14 @@
 package domainLogic;
 
 import administration.Customer;
-import administration.Storable;
-import cargo.Cargo;
 import cargo.DryBulkCargo;
 import cargo.Hazard;
 
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.util.Collection;
 import java.util.Date;
 
-public class DryBulkCargoImpl implements DryBulkCargo{
+public class DryBulkCargoImpl implements DryBulkCargo, Inspectable, StorableWithInspection{
    private final int grainSize;
    private final Customer owner;
    private final int storageLocation;

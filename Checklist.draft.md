@@ -10,21 +10,21 @@ Ergänzende Anmerkungen bitte immer _kursiv_ setzen. Andere Änderungen, außer 
 - Prüfungszulassung erreicht
 
 ## Voraussetzungen für das Bestehen
-- [ ] Quellen angegeben
-- [ ] Abgabe als zip-Archiv mit dem Projekt im root
-- [ ] IntelliJ-Projekt (kein Gradle, Maven o.ä.)
-- [ ] keine weiteren Bibliotheken außer JUnit5, Mockito und JavaFX (und deren Abhängigkeiten)
-- [ ] keine Umlaute, Sonderzeichen, etc. in Datei- und Pfadnamen
-- [ ] kompilierbar
-- [ ] Trennung zwischen Test- und Produktiv-Code
-- [ ] implementierte main-Methoden nur im default package des Moduls belegProg3, nicht in den Submodulen
-  - [ ] CLI
-  - [ ] alternativ konfiguriertes CLI
+- [x] Quellen angegeben
+- [x] Abgabe als zip-Archiv mit dem Projekt im root
+- [x] IntelliJ-Projekt (kein Gradle, Maven o.ä.)
+- [x] keine weiteren Bibliotheken außer JUnit5, Mockito und JavaFX (und deren Abhängigkeiten)
+- [x] keine Umlaute, Sonderzeichen, etc. in Datei- und Pfadnamen
+- [x] kompilierbar
+- [x] Trennung zwischen Test- und Produktiv-Code
+- [x] implementierte main-Methoden nur im default package des Moduls belegProg3, nicht in den Submodulen
+  - [x] CLI
+  - [x] alternativ konfiguriertes CLI
   - [ ] je eine für jede Simulation
   - [ ] GUI
   - [ ] Server
-- [ ] keine vorgetäuschte Funktionalität (inkl. leere und trivial tautologische Tests)
-- [ ] ausführbar
+- [x] keine vorgetäuschte Funktionalität (inkl. leere und trivial tautologische Tests)
+- [x] ausführbar
 
 ## Prototypen (max. 10)
 - GL
@@ -61,8 +61,8 @@ Ergänzende Anmerkungen bitte immer _kursiv_ setzen. Andere Änderungen, außer 
 - [ ] **keine Ablauffehler** (5)
 
 ## Basisfunktionalität (12)
-- [ ] **CRUD** (2)
-- [ ] **CLI** (2)
+- [x] **CRUD** (2)
+- [x] **CLI** (2)
   - Syntax gemäß Anforderungen
 - [ ] **Simulation** (2)
   - ohne race conditions
@@ -72,11 +72,11 @@ Ergänzende Anmerkungen bitte immer _kursiv_ setzen. Andere Änderungen, außer 
 - [ ] **Net** (2)
 
 ## Funktionalität (22)
-- [ ] vollständige GL (2)
-- [ ] threadsichere GL (1)
-- [ ] vollständiges CLI (1)
-- [ ] alternativ konfiguriertes CLI (1)
-  - _hier oder im source code angeben welche Funktionalität im alternativ konfigurierten CLI deaktiviert_
+- [x] vollständige GL (2)
+- [x] threadsichere GL (1)
+- [x] vollständiges CLI (1)
+- [x] alternativ konfiguriertes CLI (1)
+  -  - _deaktiviert: Löschen von Kunden, Anzeigen von Gefahrenstoffen. Nur CapacityObserver aktiv._
 - [ ] ausdifferenziertes event-System mit mindestens 3 events (2)
 - [ ] observer (2)
 - [ ] bzgl. den Anforderungen angemessene Typen der collections (2)

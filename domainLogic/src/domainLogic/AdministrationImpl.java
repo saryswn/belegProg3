@@ -4,21 +4,30 @@ import administration.Customer;
 import administration.Storable;
 import cargo.Hazard;
 
-import java.math.BigDecimal;
 import java.util.*;
 import cargo.Cargo;
-// Quellen: Claude (claude.ai) 29.04.2026
 // https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ArrayList.html
 // https://www.baeldung.com/java-hashset
 // https://stackoverflow.com/questions/18448671/how-to-use-removeif-in-java
 public class AdministrationImpl {
     private final int capacity;
     private final List<Customer> customerList = new ArrayList<>();
-    private final List<Storable> cargoList = new ArrayList<>();
+    private final List<StorableWithInspection> cargoList = new ArrayList<>();
 
 
     public AdministrationImpl(int capacity) {
         this.capacity = capacity;
+    }
+    private final List<Observer> observers = new ArrayList<>();
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    private void notifyObservers(String eventType, Object data) {
+        for (Observer o : observers) {
+            o.update(eventType, data);
+        }
     }
 
     // -----------------------CUSTOMER---------------------------
@@ -73,8 +82,8 @@ public class AdministrationImpl {
 
     private int nextFreeStorageLocation() {
         Set<Integer> usedLocations = new HashSet<>();
-        for (Storable s : cargoList) {
-            usedLocations.add(s.getStorageLocation());
+        for (Storable a : cargoList) {
+            usedLocations.add(a.getStorageLocation());
         }
         int location = 1;
         while (usedLocations.contains(location)) {
@@ -92,6 +101,7 @@ public class AdministrationImpl {
         int location = nextFreeStorageLocation();
         DryBulkCargoImpl cargo = new DryBulkCargoImpl(grainSize, owner, location, value, hazards);
         cargoList.add(cargo);
+        notifyObservers("cargoAdded", cargo);
         return true;
     }
 
@@ -101,6 +111,7 @@ public class AdministrationImpl {
         int location = nextFreeStorageLocation();
         UnitisedCargoImpl cargo = new UnitisedCargoImpl(fragile, owner, location, value, hazards);
         cargoList.add(cargo);
+        notifyObservers("cargoAdded", cargo);
         return true;
     }
 
@@ -112,30 +123,23 @@ public class AdministrationImpl {
         int location = nextFreeStorageLocation();
         DryBulkAndUnitisedCargoImpl cargo = new DryBulkAndUnitisedCargoImpl(owner, value, hazards, grainSize, fragile, location);
         cargoList.add(cargo);
+        notifyObservers("cargoAdded", cargo);
         return true;
     }
 
 
     public boolean removeCargo(int storageLocation) {
-        for (Storable a : cargoList) {
-            if (a.getStorageLocation() == storageLocation) {
-                cargoList.remove(a);
-                return true; // gefunden und gelöscht
-            }
+        boolean removed = cargoList.removeIf(a -> a.getStorageLocation() == storageLocation);
+        if (removed) {
+            notifyObservers("cargoRemoved", storageLocation);
         }
-        return false; // nicht gefunden
+        return removed;
     }
 
     public boolean updateInspectionDate(int storageLocation, Date newDate) {
-        for (Storable a : cargoList) {
+        for (StorableWithInspection a : cargoList) {
             if (a.getStorageLocation() == storageLocation) {
-                if (a instanceof DryBulkCargoImpl) {
-                    ((DryBulkCargoImpl) a).setLastInspectionDate(newDate);
-                } else if (a instanceof UnitisedCargoImpl) {
-                    ((UnitisedCargoImpl) a).setLastInspectionDate(newDate);
-                } else if (a instanceof DryBulkAndUnitisedCargoImpl) {
-                    ((DryBulkAndUnitisedCargoImpl) a).setLastInspectionDate(newDate);
-                }
+                a.setLastInspectionDate(newDate);
                 return true;
             }
         }
@@ -144,9 +148,9 @@ public class AdministrationImpl {
 
     public List<Storable> listCargo(String typeName) {
         List<Storable> result = new ArrayList<>();
-        for (Storable s : cargoList) {
-            if (s.getClass().getSimpleName().equals(typeName)) {
-                result.add(s);
+        for (Storable a : cargoList) {
+            if (a.getClass().getSimpleName().equals(typeName)) {
+                result.add(a);
             }
         }
         return result;
@@ -162,11 +166,8 @@ public class AdministrationImpl {
 
     public Set<Hazard> getPresentHazards() {
         Set<Hazard> hazards = new HashSet<>();
-        for (Storable a : cargoList) {
-            if (a instanceof Cargo) {
-                Hazard h = ((Cargo) a).getHazards();
-                hazards.add(h);
-            }
+        for (StorableWithInspection a : cargoList) {
+            hazards.add(a.getHazards());
         }
         return hazards;
     }
